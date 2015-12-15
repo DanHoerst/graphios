@@ -5,7 +5,6 @@ from shutil import Error as FileError
 from shutil import copy
 from time import strftime
 import os
-import platform
 import re
 
 
@@ -135,22 +134,9 @@ data_files = [
 ]
 scripts = ["graphios.py"]
 
-distro = platform.dist()[0]
-distro_ver = int(platform.dist()[1].split('.')[0])
-
-# print "using %s %s" % (distro, distro_ver)
-
-if distro in ['Ubuntu', 'debian']:
-    data_files.append(('/etc/init/', ['init/debian/graphios.conf']))
-    data_files.append(('/usr/local/bin/', ['graphios.py']))
-    data_files.append(('/etc/init.d/', ['init/debian/graphios']))
-elif distro in ['centos', 'redhat', 'fedora']:
-    data_files.append(('/usr/bin', ['graphios.py']))
-    if distro_ver >= 7:
-        data_files.append(('/usr/lib/systemd/system',
+data_files.append(('/usr/bin', ['graphios.py']))
+data_files.append(('/usr/lib/systemd/system',
                           ['init/systemd/graphios.service']))
-    elif distro_ver < 7:
-        data_files.append(('/etc/rc.d/init.d', ['init/rhel/graphios']))
 
 # print data_files
 setup(
